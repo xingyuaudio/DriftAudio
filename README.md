@@ -40,7 +40,8 @@ huggingface-cli download kph68/FdAudio \
   v1-16.pth best_netG.pt music_speech_audioset_epoch_15_esc_89.98.pt \
   --local-dir third_party/FdAudio/weights
 huggingface-cli download xingyuchen-8/DriftAudio \
-  driftaudio_from_meanaudio_s_full_step4400.pth --local-dir assets
+  driftaudio_from_meanaudio_s_full_step4400.pth \
+  driftaudio_from_fdaudio_step1800.pth --local-dir assets
 ```
 
 FdAudio also fetches `google/flan-t5-large` on first use. The generation script does not automatically download the other assets when a local DriftAudio checkpoint is supplied. This repository does not redistribute AudioCaps audio, upstream checkpoints, or text-embedding caches.
