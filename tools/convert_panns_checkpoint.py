@@ -29,7 +29,7 @@ def convert(source, expected_sha256, output):
         assert v.dtype==reloaded[k].dtype and v.shape==reloaded[k].shape
         assert torch.equal(v,reloaded[k]),k
     record=dict(source=str(source.resolve()),source_sha256=actual,output=str(output.resolve()),
-output_sha256=sha256(output),tensor_count=len(state),all_tensors_bitwise_equal=True,
+                output_sha256=sha256(output),tensor_count=len(state),all_tensors_bitwise_equal=True,
                 change='Discard non-model legacy metadata only; no numerical weight changes')
     atomic_json(record,output.with_suffix('.provenance.json'))
     return record

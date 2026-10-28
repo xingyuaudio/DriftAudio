@@ -20,7 +20,7 @@ def main():
         log.mkdir(parents=True,exist_ok=False)
         with (log/'supervisor.log').open('x') as stream:
             child=subprocess.Popen([sys.executable,str(Path(__file__).resolve()),'--supervise','--log-dir',str(log),'--',*command],
-   stdin=subprocess.DEVNULL,stdout=stream,stderr=subprocess.STDOUT,start_new_session=True)
+                                   stdin=subprocess.DEVNULL,stdout=stream,stderr=subprocess.STDOUT,start_new_session=True)
         print(json.dumps(dict(pid=child.pid,log_dir=str(log))))
         return
     signal.signal(signal.SIGHUP,signal.SIG_IGN)

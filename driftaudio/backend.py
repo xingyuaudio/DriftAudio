@@ -46,7 +46,7 @@ def load_models(config, device):
     model.load_weights(state)
     model.train()
     decoder = features.FeaturesUtils(tod_vae_ckpt=Path(paths['vae']),
-                           bigvgan_vocoder_ckpt=Path(paths['vocoder']),
+                                     bigvgan_vocoder_ckpt=Path(paths['vocoder']),
                                      encoder_name='t5_clap', enable_conditions=False,
                                      mode='16k', need_vae_encoder=False).to(device).eval().requires_grad_(False)
     encoder = PANNsEncoder(paths['panns']).to(device)

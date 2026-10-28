@@ -28,7 +28,7 @@ def validate_inputs(manifest, text_csv, gt_audio, pred_audio):
         raise ValueError('text CSV must exactly match manifest IDs and captions')
     for folder in [gt_audio, pred_audio]:
         files = [p for p in Path(folder).iterdir() if p.suffix.lower() in ('.wav', '.flac')]
-        if len(files) != len(ids) or {p.stemfor p in files} != set(ids):
+        if len(files) != len(ids) or {p.stem for p in files} != set(ids):
             raise ValueError(f'audio IDs differ from manifest: {folder}')
     return set(ids)
 

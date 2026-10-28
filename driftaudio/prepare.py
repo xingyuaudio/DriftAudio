@@ -30,8 +30,8 @@ def prepare(config, real_features, output, steps=1500):
     eligible = [i for i in range(len(ids)) if i not in excluded]
     rng = random.Random(2026091203)
     plan = dict(noise_seed_base=2026091203, query_count_per_step=64, steps=steps,
-                entries=[dict(       query_indices=rng.sample(eligible,64), noise_seed_slots=list(range(64)),
-                 noise_seed_base=2026091203) for _ in range(steps)])
+                entries=[dict(query_indices=rng.sample(eligible,64), noise_seed_slots=list(range(64)),
+                              noise_seed_base=2026091203) for _ in range(steps)])
     device = torch.device('cuda:0')
     torch.backends.cuda.matmul.allow_tf32 = False
     torch.backends.cudnn.allow_tf32 = False

@@ -27,7 +27,7 @@ def drift_step(generate, encoder, model_bank, real_features, optimizer,
             raise FloatingPointError('non-finite generated audio')
         features = torch.cat([
             encoder(waves[i:i + encoder_batch_size].to(device))
-for i in range(0, query_count, encoder_batch_size)
+            for i in range(0, query_count, encoder_batch_size)
         ])
         force, scale = residual_field(features, model_bank.values, real_features)
 

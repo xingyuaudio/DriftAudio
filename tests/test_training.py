@@ -68,15 +68,15 @@ class TrainingTests(unittest.TestCase):
                         classes_num=527).eval().requires_grad_(False)
         # Exercise the production tensor adapter without downloading a checkpoint.
         class SyntheticPANNs(PANNsEncoder):
- def __init__(self):
+            def __init__(self):
                 torch.nn.Module.__init__(self)
-      self.model = network
+                self.model = network
         encoder = SyntheticPANNs().eval().requires_grad_(False)
         model = torch.nn.Linear(4, 16000)
         parameters = list(model.parameters())
         inputs = torch.randn(2, 4)
         before = model.weight.detach().clone()
-     result = drift_step(lambda i: model(inputs[i:i + 1]), encoder,
+        result = drift_step(lambda i: model(inputs[i:i + 1]), encoder,
                             ModelBank(torch.randn(16, 2048)), torch.randn(32, 2048),
                             make_optimizer(parameters, 'cpu'), parameters, 1, 'cpu', 2, 1)
         self.assertGreater(result['grad_norm_preclip'], 0)

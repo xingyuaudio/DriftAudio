@@ -92,7 +92,7 @@ class Cnn14(nn.Module):
 
     def forward(self, input, mixup_lambda=None):
         """
-        Inpu   t: (batch_size, data_length)"""
+        Input: (batch_size, data_length)"""
         x = self.spectrogram_extractor(input)
         x = self.logmel_extractor(x)
         x = x.transpose(1, 3)

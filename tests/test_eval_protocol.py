@@ -17,7 +17,7 @@ class EvaluationProtocolTests(unittest.TestCase):
             (gt/'a.wav').touch(); (pred/'a.flac').touch()
             self.assertEqual(validate_inputs(manifest, text, gt, pred), {'a'})
             text.write_text('name,caption\na,cat\n')
-   with self.assertRaises(ValueError): validate_inputs(manifest, text, gt, pred)
+            with self.assertRaises(ValueError): validate_inputs(manifest, text, gt, pred)
             text.write_text('name,caption\na,dog\n')
             (pred/'b.flac').touch()
             with self.assertRaises(ValueError): validate_inputs(manifest, text, gt, pred)

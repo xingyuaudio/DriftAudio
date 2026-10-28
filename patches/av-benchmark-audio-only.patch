@@ -21,7 +21,7 @@ index 3637e5c..f41a653 100644
 +            sd = torch.load(_syncformer_ckpt_path, weights_only=True)
 +            sync_model.load_state_dict(sd)
              sync_video_features = torch.load(gt_audio_cache / 'synchformer_video.pth',
-                            weights_only=True)
+                                              weights_only=True)
              sync_audio_features = torch.load(pred_audio_cache / 'synchformer_audio.pth',
 diff --git a/av_bench/extract.py b/av_bench/extract.py
 index a6dfc9e..2bf4e51 100644

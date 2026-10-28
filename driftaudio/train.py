@@ -25,7 +25,7 @@ def save_checkpoint(out, step, model, optimizer, bank, signature):
     atomic_save(dict(format='driftaudio-resume-v1', step=step, model=state,
                      optimizer=optimizer.state_dict(), bank=bank.state_dict(),
                      rng=rng_state(), signature=signature), resume)
-    atomic _json(dict(step=step, online=online.name, online_sha256=sha256(online),
+    atomic_json(dict(step=step, online=online.name, online_sha256=sha256(online),
                      resume=resume.name, resume_sha256=sha256(resume)), out / f'checkpoint_step{step:06d}.json')
 
 
@@ -107,18 +107,18 @@ def train(config, output, resume=None, max_steps=None):
 
             def generate(i):
                 batch, noise = batch_and_noise(dataset, entry['query_indices'][i:i+1],
-       entry['noise_seed_slots'][i:i+1], entry['noise_seed_base'], step, device)
+                                               entry['noise_seed_slots'][i:i+1], entry['noise_seed_base'], step, device)
                 return generate_audio(model, decoder, batch, noise)
 
             indices = real_indices(step, len(real_pool))
             real = real_pool.index_select(0, indices.to(device))
             row = drift_step(generate, encoder, bank, real, optimizer, parameters, step, device, q)
             row.update(real_pool_count=len(real_pool), real_reference_count=len(indices),
-            real_sample_seed=SEED+step)
+                       real_sample_seed=SEED+step)
             completed_step = step
             log.write(json.dumps(row) + '\n')
             log.flush()
- if step == start_step + 1 or step % 5 == 0:
+            if step == start_step + 1 or step % 5 == 0:
                 print(json.dumps(row), flush=True)
             if step in checkpoints:
                 save_checkpoint(output, step, model, optimizer, bank, signature)

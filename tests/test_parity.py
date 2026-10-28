@@ -28,8 +28,8 @@ class ParityTests(unittest.TestCase):
         from driftaudio.vendor.panns import Cnn14
         from support.panns_oracle import Cnn14 as Original
         config = dict(features_list=['2048', 'logits'], sample_rate=16000,
-            window_size=512, hop_size=160, mel_bins=64, fmin=50,
-        fmax=8000, classes_num=527)
+                      window_size=512, hop_size=160, mel_bins=64, fmin=50,
+                      fmax=8000, classes_num=527)
         new = Cnn14(**config).eval().requires_grad_(False)
         old = Original(**config).eval().requires_grad_(False)
         old.load_state_dict(new.state_dict())

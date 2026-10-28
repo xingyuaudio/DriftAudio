@@ -16,7 +16,7 @@ class CaptionCsvTests(unittest.TestCase):
                 writer = csv.DictWriter(stream, fieldnames=["id", "caption"], delimiter="\t")
                 writer.writeheader()
                 writer.writerows([
-       {"id": "a", "caption": "A bell rings"},
+                    {"id": "a", "caption": "A bell rings"},
                     {"id": "b", "caption": "A dog barks"},
                 ])
             self.assertEqual(convert(manifest, output), 2)
