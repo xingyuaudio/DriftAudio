@@ -24,13 +24,16 @@ Tested with Python 3.10 and PyTorch 2.6.0 (CUDA 12.4). Create an isolated enviro
 ```bash
 git clone https://github.com/xingyuaudio/DriftAudio.git
 cd DriftAudio
+python -m venv .venv
+source .venv/bin/activate
 git clone https://github.com/nobel861017/FdAudio.git third_party/FdAudio
 git -C third_party/FdAudio checkout 6a0c9c79fd42c643b6474182b1105d596fc5e69d
 python -m pip install -r requirements-cuda124.txt
+python -m pip install -e third_party/FdAudio
 python -m pip install --no-deps -e .
 ```
 
-Install the remaining FdAudio runtime dependencies from its upstream instructions without replacing the pinned PyTorch packages. The upstream package declares unpinned PyTorch and evaluator dependencies; review them before installation. With `huggingface-cli` available, fetch the inference assets and one released checkpoint:
+The CUDA-specific PyTorch packages are installed first so FdAudio's broader version requirements can use them. Its other transitive dependencies are managed by the upstream package and are not locked by this repository. With `huggingface-cli` available, fetch the inference assets and one released checkpoint:
 
 ```bash
 huggingface-cli download kph68/FdAudio \
