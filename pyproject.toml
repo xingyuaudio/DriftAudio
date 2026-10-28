@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "driftaudio"
+version = "0.1.0"
+description = "Marginal single-PANNs drifting post-training for one-step text-to-audio generation"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {file = "LICENSE"}
+dependencies = ["torch==2.6.0", "torchaudio==2.6.0", "numpy==1.26.4", "torchlibrosa==0.1.0"]
+
+[tool.setuptools.packages.find]
+include = ["driftaudio*"]
+
+[tool.setuptools.package-data]
+"driftaudio.vendor" = ["*.txt"]
