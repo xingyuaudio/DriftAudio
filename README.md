@@ -2,6 +2,8 @@
 
 Official PyTorch implementation of [*DriftAudio: Marginal Drifting for Distributional Post-Training of One-Step Text-to-Audio Generators*](https://arxiv.org/abs/2609.27598).
 
+[Audio demo](https://xingyuaudio.github.io/driftaudio-demo/) · [Demo repository](https://github.com/xingyuaudio/driftaudio-demo) · [Model weights](https://huggingface.co/xingyuchen-8/DriftAudio)
+
 DriftAudio improves a pretrained one-step text-to-audio generator by matching its marginal audio distribution to real audio in a frozen PANNs feature space. The generator remains text-conditioned, and inference still takes one model step.
 
 ## Checkpoints
@@ -17,25 +19,37 @@ These files contain generator weights only. The upstream text encoders, VAE, and
 
 ## Setup
 
-Tested with Python 3.10 and PyTorch 2.6.0 (CUDA 12.4). Work in a new environment. The generator backend uses this pinned [FdAudio](https://github.com/nobel861017/FdAudio) revision:
+Tested with Python 3.10 and PyTorch 2.6.0 (CUDA 12.4). Create an isolated environment and clone this repository first. The generator backend uses this pinned [FdAudio](https://github.com/nobel861017/FdAudio) revision:
 
 ```bash
+git clone https://github.com/xingyuaudio/DriftAudio.git
+cd DriftAudio
 git clone https://github.com/nobel861017/FdAudio.git third_party/FdAudio
 git -C third_party/FdAudio checkout 6a0c9c79fd42c643b6474182b1105d596fc5e69d
 python -m pip install -r requirements-cuda124.txt
 python -m pip install --no-deps -e .
 ```
 
-Install the remaining FdAudio runtime dependencies from its upstream instructions without replacing the pinned PyTorch packages. Download its [inference components](https://huggingface.co/kph68/FdAudio) into `third_party/FdAudio/weights/`; the generation script does not download them when a local DriftAudio checkpoint is supplied. This repository does not redistribute AudioCaps audio, upstream checkpoints, or text-embedding caches.
+Install the remaining FdAudio runtime dependencies from its upstream instructions without replacing the pinned PyTorch packages. The upstream package declares unpinned PyTorch and evaluator dependencies; review them before installation. With `huggingface-cli` available, fetch the inference assets and one released checkpoint:
+
+```bash
+huggingface-cli download kph68/FdAudio \
+  v1-16.pth best_netG.pt music_speech_audioset_epoch_15_esc_89.98.pt \
+  --local-dir third_party/FdAudio/weights
+huggingface-cli download xingyuchen-8/DriftAudio \
+  driftaudio_from_meanaudio_s_full_step4400.pth --local-dir assets
+```
+
+FdAudio also fetches `google/flan-t5-large` on first use. The generation script does not automatically download the other assets when a local DriftAudio checkpoint is supplied. This repository does not redistribute AudioCaps audio, upstream checkpoints, or text-embedding caches.
 
 ## Generate audio
 
-Provide a tab-separated manifest with `id` and `caption` columns. For example, with a one-row `data/prompts.tsv` and a downloaded checkpoint:
+Provide a tab-separated manifest with `id` and `caption` columns. For example, with the included one-row [`examples/prompts.tsv`](examples/prompts.tsv) and a downloaded checkpoint:
 
 ```bash
 python -m driftaudio.generate \
   --upstream third_party/FdAudio \
-  --manifest data/prompts.tsv \
+  --manifest examples/prompts.tsv \
   --expected-count 1 \
   --checkpoint assets/driftaudio_from_meanaudio_s_full_step4400.pth \
   --output outputs/example
@@ -79,7 +93,7 @@ The paper evaluates 877 available AudioCaps test clips using one fixed caption p
 | From MeanAudio-S-Full | 1.111 | 12.715 | 1.207 | 9.834 | 0.325 |
 | From FdAudio | 0.987 | 12.609 | 1.244 | 10.169 | 0.335 |
 
-These are the archived paper-run measurements, not results from a fresh training run of this release. The 877-clip set was inspected during development and should not be described as an untouched external test.
+These are the archived paper-run measurements, not results from a fresh training run of this release. The 877-clip set was inspected during development and should not be described as an untouched external test. Exact numerical replay also requires the original train/test manifests, audio, and preprocessing caches, which are not redistributed.
 
 ## Tests and citation
 
@@ -97,3 +111,4 @@ python -m unittest discover -s tests -v
 ```
 
 The repository code is MIT-licensed. Model weights and upstream components have separate terms; in particular, the official FdAudio model card labels its weights [CC BY-NC-SA 4.0](https://github.com/nobel861017/FdAudio/blob/main/MODEL_CARD.md). See [third-party notices](THIRD_PARTY_NOTICES.md).
+
