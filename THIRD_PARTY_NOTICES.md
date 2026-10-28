@@ -6,10 +6,10 @@
 - **av-benchmark / PANNs**: https://github.com/hkchengrex/av-benchmark
   at `f351b9a6fc6abde746d5f8e1d4c47c883319cb41`. The minimal Cnn14/ConvBlock and
   helper source is vendored under `driftaudio/vendor`. Its MIT license is retained
-  there and under `licenses/av-benchmark.txt`. `SOURCE_PROVENANCE.json` records the
-  original file SHA256 and local changes: remove constructor downloads/weight I/O;
-  replace in-place ReLU calls with non-inplace equivalents. Architecture and forward
-  arithmetic are otherwise retained. PANNs upstream: https://github.com/qiuqiangkong/audioset_tagging_cnn
+  there and under `licenses/av-benchmark.txt`. The vendored copy removes automatic
+  checkpoint downloads and uses non-inplace ReLU for waveform gradients;
+  architecture and forward arithmetic are otherwise retained. PANNs upstream:
+  https://github.com/qiuqiangkong/audioset_tagging_cnn
 - **PyTorch, torchaudio, torchlibrosa and model dependencies** are external packages
   and retain their respective licenses.
 

@@ -33,7 +33,5 @@ cross-space balancing rules. There is no teacher, MeanFlow anchor, FD loss,
 semantic weighting, recency weighting, EMA inference model, or initialization-
 specific objective. The two initialization configurations use the same recipe.
 
-The exact field arithmetic lives in `driftaudio/field.py`; the full update lives
-in `driftaudio/step.py`. Archived research functions appear only in test fixtures
-and are never imported by training. See `REPRODUCIBILITY.md` for the numerical
-limitations of comparing this cleaned implementation with historical runs.
+The field arithmetic lives in `driftaudio/field.py`; the update lives in
+`driftaudio/step.py`.

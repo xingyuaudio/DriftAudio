@@ -14,12 +14,12 @@ checking out the pinned commit:
 git -C third_party/av-benchmark apply ../../patches/av-benchmark-audio-only.patch
 ```
 
-The selected-run evaluator source hashes match this patched checkout. Using the
-unpatched commit is not the archived numerical protocol.
+Use this patch when reproducing the reported metrics; the unpatched evaluator
+does not implement the same audio-only execution path.
 
 Use the pinned [FdAudio](https://github.com/nobel861017/FdAudio) revision `6a0c9c79fd42c643b6474182b1105d596fc5e69d` for the one-step MeanAudio-compatible model and the pinned [av-benchmark](https://github.com/hkchengrex/av-benchmark) revision `f351b9a6fc6abde746d5f8e1d4c47c883319cb41` for metrics. The wrapper refuses a different revision. Install dependencies in a new, isolated environment after reviewing `requirements-cuda124.txt`; do not modify a shared environment merely to run this example.
 
-The checkpoint contains generator state only. Supply the upstream VAE, vocoder, text encoders, and any checkpoint assets required by FdAudio. The two paper-selected generator checkpoints will be released separately on Hugging Face; they do not include these upstream dependencies.
+The [released checkpoints](https://huggingface.co/xingyuchen-8/DriftAudio) contain generator state only. Supply the upstream VAE, vocoder, text encoders, and any other assets required by FdAudio.
 
 ## One-step generation
 
