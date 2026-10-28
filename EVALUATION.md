@@ -11,6 +11,8 @@ change the five reported metric formulas. Apply the included exact diff after
 checking out the pinned commit:
 
 ```bash
+git clone https://github.com/hkchengrex/av-benchmark.git third_party/av-benchmark
+git -C third_party/av-benchmark checkout f351b9a6fc6abde746d5f8e1d4c47c883319cb41
 git -C third_party/av-benchmark apply ../../patches/av-benchmark-audio-only.patch
 ```
 
@@ -55,3 +57,4 @@ python -m driftaudio.evaluate \
 Use a distinct `--pred-cache` for each model. Reuse `--gt-cache` only when its caption-binding receipt matches the manifest and text CSV; the wrapper checks this. It also checks audio IDs, cache IDs, finite metrics, and evaluator source hashes. Only use trusted local feature caches because the pinned upstream evaluator uses PyTorch pickle files.
 
 Reported columns are FAD=`FD-VGG`, FD=`FD-PANN`, KL=`KL-PANNS-softmax`, IS=`ISC-PANNS-mean`, and CLAP=`LAION-CLAP-Score`. The wrapper fixes matmul TF32 off, cuDNN TF32 on, and cuDNN benchmark off. Its `driftaudio_metrics.json` and `evaluation_protocol.json` are the numerical result and audit receipt. Do not substitute the official 957-item AudioCaps TSV or a different caption selection when comparing with paper Table 1.
+
